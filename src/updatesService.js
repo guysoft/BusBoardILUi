@@ -4,13 +4,25 @@ export default class UpdatesService {
   }
 
   getBuses(lat, lon) {
-    return new Promise((resolve, reject) => {
-      this.makeRequest(`/data?lat=${lat}&lon=${lon}`)
-        .then(response => resolve(response.json()))
-        .catch(err => {
-          throw err;
-        });
-    });
+    return this.makeRequest(`/data?lat=${lat}&lon=${lon}`)
+      .then(this.validateResponse)
+      .then(this.readResponseAsJson)
+      .catch(this.logError);
+  }
+
+  readResponseAsJson(res) {
+    return res.json();
+  }
+
+  validateResponse(res) {
+    if (!res.ok) {
+      throw Error(res.statusText);
+    }
+    return res;
+  }
+
+  logError(err) {
+    console.error(err);
   }
 
   makeRequest(endpoint) {

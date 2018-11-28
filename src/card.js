@@ -3,7 +3,7 @@ export class AppCard extends HTMLElement {
     super();
     this._shadow = this.attachShadow({ mode: "open" });
     this._greet = "hi";
-    this._shadow.innerHTML = render(this._g);
+    this._shadow.innerHTML = render();
   }
 
   connectedCallback() {}
@@ -13,18 +13,27 @@ export class AppCard extends HTMLElement {
       this._greet = newVal;
       this._shadow.innerHTML = render(this._greet);
     }
+    if (attrName === "data") {
+      console.log("bus data:", newVal);
+      if (newVal) {
+        const data = JSON.parse(newVal);
+        this._shadow.innerHTML = render(data);
+      }
+    }
   }
 }
 
-AppCard.observedAttributes = ["greet"];
+AppCard.observedAttributes = ["greet", "data"];
 
-function render(greet) {
-  return `
+function render(data) {
+  return data
+    ? `
     <div class="card">
-      <span>${greet}</span>
-      <span>number</span>
-      <span>time</span>
-      <span>direction</span>
+      <div>קו: ${data.line_name}</div>
+      <div>רחוב: ${data.stop_street}</div>
+      <div>time</div>
+      <div>יעד: ${data.static_info.route.destination.name.HE}</div>
     </div>
-    `;
+    `
+    : `<div>Loading...</div>`;
 }

@@ -8,21 +8,12 @@ var body = document.querySelector("body");
 const updatesService = new UpdatesService();
 
 updatesService.getBuses("32.0744198", "34.795655200000056").then(stops => {
-  console.log(stops);
-  debugger;
-  let bus;
   Object.keys(stops).forEach(stopName => {
     bus = stops[stopName].forEach(busData => {
       addBusCard(busData);
     });
   });
 });
-// console.log(response);
-// let bus;
-// Object.keys(response).forEach(stop => {
-//   bus = response[stop][0];
-// });
-// console.log("bus", bus);
 
 function addBusCard(busData) {
   var card = document.createElement("app-card");

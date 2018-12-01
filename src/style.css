@@ -1,0 +1,7 @@
+html {
+  font-family: "Rubik", sans-serif;
+}
+.container {
+  max-width: 800px;
+  margin: 1rem auto;
+}

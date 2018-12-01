@@ -5,13 +5,10 @@ export class AppCard extends HTMLElement {
   }
 
   set data(data) {
-    console.log("data", data);
     this.shadowRoot.innerHTML = render(data);
   }
   disconnectedCallback() {}
 }
-
-AppCard.observedAttributes = ["greet", "data"];
 
 function render(data) {
   return `
@@ -47,3 +44,5 @@ function getEstimation(time) {
   const minutes = Math.round(((result % 86400000) % 3600000) / 60000);
   return minutes;
 }
+
+window.customElements.define("app-card", AppCard);

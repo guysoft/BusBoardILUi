@@ -5,12 +5,16 @@ export class AppPagination extends HTMLElement {
     this.template = document.createElement("template");
     this.template.innerHTML = render();
     this.page = 1;
+    this.pageSize = 6;
+    this.selectionTimout = 1500;
     this.nodes;
     this.showStops = this.showStops.bind(this);
+    this.showActiveBus =  this.showActiveBus.bind(this);
+    this.activeBuss = 0; 
   }
 
-  getNumbers(nodesLength) {
-    const pages = Math.ceil(nodesLength / 5);
+  createPageButtons(nodesLength) {
+    const pages = Math.ceil(nodesLength / this.pageSize);
     const buttons = document.createElement("div");
     const arr = Array.from(Array(pages));
     arr.forEach((page = "", index) => {
@@ -28,7 +32,6 @@ export class AppPagination extends HTMLElement {
   };
 
   setPage = number => {
-    console.log("set page", number);
     this.page = number;
     this.showStops();
   };
@@ -39,8 +42,10 @@ export class AppPagination extends HTMLElement {
     slot.addEventListener("slotchange", e => {
       this.nodes = e.target.assignedNodes();
       this.showStops();
-      this.getNumbers(this.nodes.length);
+      this.createPageButtons(this.nodes.length);
+      setInterval(this.showActiveBus, this.selectionTimout);
     });
+    
   }
 
   showStops() {
@@ -51,6 +56,18 @@ export class AppPagination extends HTMLElement {
         node.style.display = "block";
       }
     });
+  }
+
+  showActiveBus(){   
+    if(this.activeBuss > 0) this.nodes[this.activeBuss - 1].selected = false;
+    this.nodes[this.activeBuss].selected = true;    
+    this.activeBuss++;
+    if(this.activeBuss == this.pageSize * this.page - 1){
+      this.activeBuss--;
+      this.page++
+      this.setPage(this.page);
+    } else {
+    } 
   }
 }
 

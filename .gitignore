@@ -1,5 +1,5 @@
 
 .cache
 node_modules
-
+.history
 dist

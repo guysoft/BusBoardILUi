@@ -1,4 +1,4 @@
-export class AppCard extends HTMLElement {
+ export class AppCard extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
@@ -7,13 +7,19 @@ export class AppCard extends HTMLElement {
   set data(data) {
     this.shadowRoot.innerHTML = render(data);
   }
+
+  set selected(value) {
+    let card = this.shadowRoot.getElementById('card-body');
+    (value == true) ? card.setAttribute('class', 'selected-card'): card.setAttribute('class', 'card');
+  }
+
   disconnectedCallback() {}
 }
 
 function render(data) {
   return `
     ${getStyles()}
-    <div class="card">
+    <div class="card" id="card-body">
       <div class="line-name">קו: ${data.line_name}</div>
       <div class="street">רחוב: ${data.stop_street}</div>
       <div class="estimation">הגעה: ${getEstimation(data.eta)}</div>
@@ -34,6 +40,9 @@ function getStyles() {
       padding: 1rem;
       background-clip: border-box;
       box-shadow: rgba(0, 0, 0, 0.14) 0px 2px 2px;
+    }
+    .selected-card{
+      border:1px solid red;
     }
   </style>
   `;

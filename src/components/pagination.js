@@ -50,7 +50,7 @@ export class AppPagination extends HTMLElement {
 
   showStops() {
     this.nodes.forEach((node, i) => {
-      if (i > 5 * this.page || i < 5 * this.page - 5) {
+      if (i > this.pageSize * this.page || i <= this.pageSize * this.page - this.pageSize) {
         node.style.display = "none";
       } else {
         node.style.display = "block";
@@ -58,12 +58,12 @@ export class AppPagination extends HTMLElement {
     });
   }
 
-  showActiveBus(){   
+  showActiveBus(){
     if(this.activeBuss > 0) this.nodes[this.activeBuss - 1].selected = false;
     this.nodes[this.activeBuss].selected = true;    
     this.activeBuss++;
-    if(this.activeBuss == this.pageSize * this.page - 1){
-      this.activeBuss--;
+    console.log('activeBuss : ', this.activeBuss)
+    if(this.activeBuss - 1 > this.pageSize * this.page){
       this.page++
       this.setPage(this.page);
     } else {

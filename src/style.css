@@ -2,6 +2,16 @@ html {
   font-family: "Rubik", sans-serif;
 }
 .container {
-  max-width: 800px;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-evenly;
+  align-items: stretch;
+  max-width: 1800px;
   margin: 1rem auto;
+}
+app-info{
+  flex:5;
+}
+app-pagination{
+  flex:2;
 }

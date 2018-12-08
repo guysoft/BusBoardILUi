@@ -10,7 +10,7 @@
 
   set selected(value) {
     let card = this.shadowRoot.getElementById('card-body');
-    (value == true) ? card.setAttribute('class', 'selected-card'): card.setAttribute('class', 'card');
+    (value == true) ? card.setAttribute('class', 'card selected-card'): card.setAttribute('class', 'card');
   }
 
   disconnectedCallback() {}
@@ -37,12 +37,14 @@ function getStyles() {
       display: flex;
       flex-direction: column;
       text-align: right;
+      align-content:space-between;
       padding: 1rem;
       background-clip: border-box;
       box-shadow: rgba(0, 0, 0, 0.14) 0px 2px 2px;
     }
     .selected-card{
-      border:1px solid red;
+      background-clip: border-box;
+      box-shadow:0px 0px 5px 1px red;
     }
   </style>
   `;

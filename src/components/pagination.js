@@ -10,7 +10,8 @@ export class AppPagination extends HTMLElement {
     this.nodes;
     this.showStops = this.showStops.bind(this);
     this.showActiveBus =  this.showActiveBus.bind(this);
-    this.activeBuss = 0; 
+    this.activeBus = 0; 
+    console.log('this in pagination ', this.render)
   }
 
   createPageButtons(nodesLength) {
@@ -31,6 +32,7 @@ export class AppPagination extends HTMLElement {
     return button;
   };
 
+
   setPage = number => {
     this.page = number;
     this.showStops();
@@ -42,7 +44,7 @@ export class AppPagination extends HTMLElement {
     slot.addEventListener("slotchange", e => {
       this.nodes = e.target.assignedNodes();
       this.showStops();
-      this.createPageButtons(this.nodes.length);
+      // this.createPageButtons(this.nodes.length);
       setInterval(this.showActiveBus, this.selectionTimout);
     });
     
@@ -59,11 +61,15 @@ export class AppPagination extends HTMLElement {
   }
 
   showActiveBus(){
-    if(this.activeBuss > 0) this.nodes[this.activeBuss - 1].selected = false;
-    this.nodes[this.activeBuss].selected = true;    
-    this.activeBuss++;
-    console.log('activeBuss : ', this.activeBuss)
-    if(this.activeBuss - 1 > this.pageSize * this.page){
+    if(!this.nodes[this.activeBus]) {
+      this.activeBus = 0;
+      this.page = 0;
+    }
+    if(this.activeBus > 0) this.nodes[this.activeBus - 1].selected = false;
+    this.nodes[this.activeBus].selected = true;  
+    this.dispatchEvent( new Event( 'showActiveBusOut',{ activeBus: this.activeBus } ) )
+    this.activeBus++;
+    if(this.activeBus - 1 > this.pageSize * this.page){
       this.page++
       this.setPage(this.page);
     } else {
